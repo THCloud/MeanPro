@@ -14,7 +14,7 @@ var src = {
         './bower_components/bootstrap/dist/js/bootstrap.js',
         './bower_components/angular/angular.js',
 
-        './public/assets/js/controllers/*.js',
+		'./public/assets/js/controllers/*.js',
         './public/assets/js/services/*.js',
         './public/assets/js/directives/*.js',
         './public/assets/js/route.js',
@@ -36,8 +36,8 @@ var path = {
 
 // source file to concat.
 var concat = {
-    js: './public/assets/js/app.js',
-    css: './public/assets/css/main.css',
+    js: 'app.js',
+    css: 'main.css',
 };
 
 // files need to be delete before minify.
@@ -45,10 +45,14 @@ var del = [];
 
 // core config entity.
 var conf = {
-    srcFiles: src,
-    buildPath: path,
-    concat: concat,
-    del: del
-}
+	srcFiles: src,
+	buildPath: path,
+	concat: concat,
+	del: del
+};
 
-module.export = conf;
+module.exports = function() {
+	return conf;
+};
+
+

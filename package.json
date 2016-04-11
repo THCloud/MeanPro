@@ -24,8 +24,8 @@
         "gulp-clean-css": "latest",
         "gulp-rename": "^1.2.2",
         "gulp-uglify": "^1.2.0",
-        "nodemon": "latest",
-        "livereload": "latest"
+        "gulp-nodemon": "latest",
+        "gulp-livereload": "latest"
     },
     "scripts": {
         "start": "./node_modules/.bin/nodemon ./bin/www"

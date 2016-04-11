@@ -17,10 +17,10 @@ angular.module("myApp")
         '$stateProvider',
         '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
-            $stateProvider.state('state1', {
-                    url: "/state1",
-                    templateUrl: "",
-                    controller: "state1Ctrl"
+            $stateProvider.state('index', {
+                    url: "/",
+                    templateUrl: "/app/views/index.jade",
+                    controller: "indexCtrl"
                 })
                 .state('/state2', {
                     url: "/state2",
@@ -35,6 +35,6 @@ angular.module("myApp")
 
             // default state.
             // the default state must be defined on a state.
-            $urlRouterProvider.otherwise('/state1');
+            $urlRouterProvider.otherwise('/');
         }
     ]);

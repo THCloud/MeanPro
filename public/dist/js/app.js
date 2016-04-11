@@ -44006,15 +44006,14 @@ angular.module('myApp')
             $routeProvider
                 .when('/', {
                     templateUrl: '/',
-                    controller: indexCtrl,
+                    controller: 'indexCtrl',
                 })
                 .when('/state1', {
                     templateUrl: '/state1',
-                    controller: state1Ctrl,
+                    controller: 'state1Ctrl',
                 });
 
             $routeProvider.otherwise({redirectTo: '/'});
-            $locationProvider.html5Mode(true);            
         }]);
 
 /*

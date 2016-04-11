@@ -7,16 +7,16 @@
  *	
  */
 
-angular.module('myApp')
-	.controller('state1Ctrl', [
+
+myApp.controller('state1Ctrl', [
 		'$scope',
 		'$timeout',
 		function($scope, $timeout){
 		
-		var init = function() {
-			console.log('kawayi, what the fuck');
-		};
+			function init() {
+				console.log('kawayi, what the fuck');
+			};
 
-		init();
+			init();
 
 	}]);

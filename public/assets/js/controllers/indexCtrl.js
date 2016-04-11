@@ -7,16 +7,15 @@
  *	
  */
 
-angular.module('myApp')
-	.controller('indexCtrl', [
+
+myApp.controller('indexCtrl', [
 		'$scope',
 		'$timeout',
 		function($scope, $timeout){
 		
-		var init = function() {
-			console.log('wakaka, test');
-		};
+			function _init() {
+				console.log('wakaka, test');
+			};
 
-		init();
-
+			_init();
 	}]);

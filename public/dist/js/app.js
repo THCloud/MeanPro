@@ -43945,6 +43945,37 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 var myApp = angular.module('myApp', ['ngRoute']);
 
 /**
+ *  ./public/assets/js/controller/errorCtrl.js
+ *
+ *  @file    this controller is for error page.
+ *
+ *  @author  TH_Cloud
+ *	
+ */
+
+
+myApp.controller('errorCtrl', [
+		'$scope',
+		'$timeout',
+		'$http',
+		function($scope, $timeout, $http){
+			$scope.send = ajaxReq();
+
+			function ajaxReq() {
+				var data = {
+					id: 1,
+					text: 'Fenrisulfr'
+				};
+				$http.post('/error', data)
+					.then(function successCB(res) {
+						console.log(res.data);
+					}, function errorCB(res) {
+						console.log(res.data);
+					});
+			}		
+
+	}]);
+/**
  *  ./public/assets/js/controller/indexCtrl.js
  *
  *  @file    this controller is for index page.
@@ -43961,31 +43992,9 @@ myApp.controller('indexCtrl', [
 		
 			function _init() {
 				console.log('wakaka, test');
-			};
+			}
 
 			_init();
-	}]);
-/**
- *  ./public/assets/js/controller/state1Ctrl.js
- *
- *  @file    this controller is for error page.
- *
- *  @author  TH_Cloud
- *	
- */
-
-
-myApp.controller('state1Ctrl', [
-		'$scope',
-		'$timeout',
-		function($scope, $timeout){
-		
-			function init() {
-				console.log('kawayi, what the fuck');
-			};
-
-			init();
-
 	}]);
 /**
  * public/assets/js/route.js
@@ -44008,12 +44017,17 @@ angular.module('myApp')
                     templateUrl: '/',
                     controller: 'indexCtrl',
                 })
-                .when('/state1', {
-                    templateUrl: '/state1',
-                    controller: 'state1Ctrl',
+                .when('/error', {
+                    templateUrl: '/error',
+                    controller: 'errorCtrl',
+                })
+                .otherwise({
+                    redirectTo: '/'
                 });
-
-            $routeProvider.otherwise({redirectTo: '/'});
+            $locationProvider.html5Mode({
+                enable: true,
+                requireBase: false
+            });
         }]);
 
 /*

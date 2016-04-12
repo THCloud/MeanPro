@@ -19,10 +19,15 @@ angular.module('myApp')
                     templateUrl: '/',
                     controller: 'indexCtrl',
                 })
-                .when('/state1', {
-                    templateUrl: '/state1',
-                    controller: 'state1Ctrl',
+                .when('/error', {
+                    templateUrl: '/error',
+                    controller: 'errorCtrl',
+                })
+                .otherwise({
+                    redirectTo: '/'
                 });
-
-            $routeProvider.otherwise({redirectTo: '/'});
+            $locationProvider.html5Mode({
+                enable: true,
+                requireBase: false
+            });
         }]);

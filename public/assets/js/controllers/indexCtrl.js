@@ -15,7 +15,7 @@ myApp.controller('indexCtrl', [
 		
 			function _init() {
 				console.log('wakaka, test');
-			};
+			}
 
 			_init();
 	}]);

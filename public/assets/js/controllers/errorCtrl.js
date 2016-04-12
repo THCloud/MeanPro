@@ -13,7 +13,7 @@ myApp.controller('errorCtrl', [
 		'$timeout',
 		'$http',
 		function($scope, $timeout, $http){
-			$scope.send = ajaxReq();
+			$scope.send = ajaxReq;
 
 			function ajaxReq() {
 				var data = {

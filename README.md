@@ -19,8 +19,10 @@
     
     jade在这里不适用！ jade在这里不适用！ jade在这里不适用！
     
-    只是单纯为了jade而jade。过一阵会同步一个不用jade的版本。
-    将前端文件放到public目录下，由express的static中间件使用，更适合实际生产环境 
+    只是单纯为了jade而jade。
+    现情况，路由加载是由angular跳转请求后台，由后台渲染并render过去browser的view文件
+    实际生产环境，如果希望angular的route去控制跳转，使用纯html来让angular去加载更为合适。
+    但是目前并不清楚如何绕过express的template engine来实现。 
 
 ## 目录结构
 

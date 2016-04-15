@@ -1,9 +1,13 @@
 extends layout
 
 block content
-	.container(ng-controller="errorCtrl")
-		.jumbotron
+	header.jumbotron.subhead
+		.container(ng-controller="errorCtrl")
 			h1 Error Page
 			.alert.alert-danger(role="alert") 这是错误页示例，可以查查console有没有输出什么破玩意
 			a.btn.btn-success.btn-lg(href="/", style="margin-right:30px;") 试试跳到index
 			a.btn.btn-primary.btn-lg(ng-click="send()") 发个ajax看看
+			a.btn.btn-info.btn-lg 还有浅蓝色
+			a.btn.btn-danger.btn-lg 还有红色
+			a.btn.btn-warning.btn-lg 还有这个
+			a.btn.btn-default.btn-lg 还有默认颜色

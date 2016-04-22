@@ -2,8 +2,14 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+// var cookieParser = require('cookie-parser');      // cookieParser is no longer needed for session.
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var session = require('express-session');
+var db = require('./config/db-config.js');
+
+mongoose.connect(db.url);
+mongoose.connection;
 
 
 // routes. NOT FINISHED !!!
@@ -11,6 +17,17 @@ var routes = require('./app/routes/route.js');
 
 
 var app = express();
+
+
+// for session.
+app.use(session({
+    secret: 'powered by THCloud',
+    resave: false,
+    saveUninitialized: false
+}));
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app', 'views'));

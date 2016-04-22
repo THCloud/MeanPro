@@ -44,7 +44,12 @@ var concat = {
 };
 
 // files need to be delete before minify.
-var del = [];
+var del = [
+    './public/dist/js/app.js',
+    './public/dist/js/app.min.js',
+    './public/dist/css/main.css',
+    './public/dist/css/main.min.css'
+];
 
 // core config entity.
 var conf = {

@@ -63,6 +63,6 @@ gulp.task('develop', function() {
     });
 });
 
-gulp.task('default', ['minifyjs', 'copy', 'minifycss'], function() {
+gulp.task('default', ['clean', 'minifyjs', 'copy', 'minifycss'], function() {
     gulp.start('develop');
 });

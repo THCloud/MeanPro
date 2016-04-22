@@ -26,8 +26,5 @@ angular.module('myApp')
                 .otherwise({
                     redirectTo: '/'
                 });
-            $locationProvider.html5Mode({
-                enable: true,
-                requireBase: false
-            });
+            $locationProvider.html5Mode(true);    
         }]);

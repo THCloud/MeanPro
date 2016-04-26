@@ -1,5 +1,5 @@
 /**
- *  ./public/assets/js/controller/indexCtrl.js
+ *  ./public/assets/js/controller/tagEditCtrl.js
  *
  *  @file    this controller is for index page.
  *
@@ -8,10 +8,9 @@
  */
 
 
-myApp.controller('indexCtrl', [
+myApp.controller('tagEditCtrl', [
 		'$scope',
 		'$timeout',
 		function($scope, $timeout){
 		
-			
 	}]);

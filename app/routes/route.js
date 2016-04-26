@@ -1,30 +1,26 @@
+/**
+ *  ./app/routes/route.js
+ *
+ *	@file    Include the static page route.
+ *
+ *  @author  TH_Cloud
+ *
+ */
+
+
 var express = require('express');
 var router = express.Router();
 
-router.get('/', function (req, res, next) {
-	console.log('======================================');
-	console.log('success !');
-	console.log('======================================');
-	res.render('index.jade');
-});
-
-
-router.get('/error', function (req, res, next) {
-	console.log('======================================');
-	console.log('render the error page');
-	console.log('======================================');
-	res.render('error.jade');
-});
-
-router.post('/error', function (req, res, next) {
-	console.log('======================================');
-	console.log('get an ajax from browser');
-	console.log(req.body);
-	console.log('======================================');
-	var data = { state: 'success' };
-	res.send(data);
-});
-
+router
+	.get('/', function (req, res, next) {
+		res.render('index.jade');
+	})
+	.get('/error', function (req, res, next) {
+		res.render('error.jade');
+	})		
+	.get('/about', function (req, res, next) {
+		res.render('about.jade');
+	});
 
 
 module.exports = router;

@@ -1,129 +1,64 @@
 extends layout
 
-block content
+block content	
 	header.jumbotron.subhead
-		.container(ng-controller="indexCtrl")
+		.container
 			h1 Index Page
-			p.lead  这是一个示例，可以查查console有没有输出什么破玩意
-			a.btn.btn-success.btn-lg(href="/error") 试试跳到error
-	.container(style="margin-bottom: 30px;")
-		.page-header
-			h1 里面填点东西
+			p.lead
+				hr
+			p.lead  这里可以随便说点介绍啊，公告啊一类的话
+			p.lead  我们直接用这个页面显示所有的task了
+	.container
 		.row
-			.col-sm-4
+			.col-sm-9
+				.page-header(style="margin-top:0")
+					h1 全部任务
 				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-	.container(style="margin-bottom: 30px;")
-		.page-header
-			h1 里面填点东西
-		.row
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-	.container(style="margin-bottom: 30px;")
-		.page-header
-			h1 里面填点东西
-		.row
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-	.container(style="margin-bottom: 30px;")
-		.page-header
-			h1 里面填点东西
-		.row
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-	.container(style="margin-bottom: 30px;")
-		.page-header
-			h1 里面填点东西
-			a(name="123")
-		.row
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-
-			.col-sm-4
-				ul.list-group
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
-					li.list-group-item 里面填点东西
+					li.list-group-item
+						h3.list-group-item-heading
+							a(href="/taskInfo") 任务1标题
+						p.list-group-item-text 任务一描述呀哈哈哈
+					li.list-group-item
+						h3.list-group-item-heading
+							a(href="/taskInfo") 任务2标题
+						p.list-group-item-text 任务二描述呀哈哈哈
+					li.list-group-item
+						h3.list-group-item-heading
+							a(href="/taskInfo") 任务3标题
+						p.list-group-item-text 任务3描述呀哈哈哈
+					li.list-group-item
+						h3.list-group-item-heading
+							a(href="/taskInfo") 任务4标题
+						p.list-group-item-text 任务4描述呀哈哈哈
+					li.list-group-item
+						h3.list-group-item-heading
+							a(href="/taskInfo") 任务5标题
+						p.list-group-item-text 任务5描述呀哈哈哈
+					li.list-group-item
+						h3.list-group-item-heading
+							a(href="/taskInfo") 任务6标题
+						p.list-group-item-text 任务6描述呀哈哈哈
+			nav.col-sm-3
+				ul.nav.list-group(style="margin-top: 18px;")
+					li.list-group-item.active(data-toggle="tab") 全部任务
+					li.list-group-item(data-toggle="tab") 任务1标签
+					li.list-group-item(data-toggle="tab") 任务2标签
+					li.list-group-item(data-toggle="tab") 任务3标签
+		nav
+			ul.pagination
+				li
+					a(aria-label="Previous")
+						span(aria-hidden="true") &laquo;
+				li.active(data-toggle="tab")
+					a 1
+				li(data-toggle="tab")
+					a 2
+				li(data-toggle="tab")
+					a 3
+				li(data-toggle="tab")
+					a 4
+				li(data-toggle="tab")
+					a 5
+				li
+					a(aria-label="Next")
+						span(aria-hidden="true") &raquo;			

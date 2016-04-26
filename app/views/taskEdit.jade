@@ -1,0 +1,45 @@
+extends layout
+
+block content	
+	header.jumbotron.subhead
+		.container
+			h1 Task Edit
+			p.lead
+				hr
+			p.lead  任务编辑页面，可以添加或修改任务
+	.container
+		.page-header
+			h1 任务编辑
+		form(role="form")
+			.form-group
+				label.form-control.col-sm-2 任务名称
+				input.form-control.col-sm-5(type="text", placeholder="任务名称")
+			.form-group
+				label.form-control.col-sm-2 所属标签
+				.btn-group(data-toggle="buttons")
+					label.btn.btn-info.active
+						input(type="radio", name="tags", autocomplete="off", checked) radio1
+					label.btn.btn-info
+						input(type="radio", name="tags", autocomplete="off") radio2
+					label.btn.btn-info
+						input(type="radio", name="tags", autocomplete="off") radio3
+			.form-group
+				label.form-control.col-sm-2 总过程数
+				.btn-group(data-toggle="buttons")
+					label.btn.btn-info.active
+						input(type="radio", name="num", autocomplete="off", checked) 2
+					label.btn.btn-info
+						input(type="radio", name="num", autocomplete="off") 3
+					label.btn.btn-info
+						input(type="radio", name="num", autocomplete="off") 4
+					label.btn.btn-info
+						input(type="radio", name="num", autocomplete="off") 5	
+			.form-group
+				label.form-control.col-sm-2 过程名称
+				.col-sm-6
+					input.form-control(type="text", placeholder="step1")
+					input.form-control(type="text", placeholder="step2")
+					input.form-control(type="text", placeholder="step3")
+			.form-group
+				label.form-control.col-sm-2 任务描述
+				textarea.form-control.col-sm-6(rows="3")

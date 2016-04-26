@@ -1,5 +1,5 @@
 /**
- *  ./public/assets/js/controller/indexCtrl.js
+ *  ./public/assets/js/controller/tagAddCtrl.js
  *
  *  @file    this controller is for index page.
  *
@@ -8,10 +8,9 @@
  */
 
 
-myApp.controller('indexCtrl', [
+myApp.controller('tagAddCtrl', [
 		'$scope',
 		'$timeout',
 		function($scope, $timeout){
 		
-			
 	}]);

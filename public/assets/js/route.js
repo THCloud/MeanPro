@@ -17,14 +17,45 @@ angular.module('myApp')
             $routeProvider
                 .when('/', {
                     templateUrl: '/',
-                    controller: 'indexCtrl',
+                    controller: 'indexCtrl'
                 })
                 .when('/error', {
                     templateUrl: '/error',
-                    controller: 'errorCtrl',
+                    controller: 'errorCtrl'
+                })
+                .when('/admin', {
+                    templateUrl: '/admin',
+                    controller: 'adminCtrl'
+                })
+                .when('/taskInfo:id', {
+                    templateUrl: '/taskInfo',
+                    controller: 'taskInfoCtrl'
+                })
+                .when('/taskEdit', {
+                    templateUrl: '/taskEdit',
+                    controller: 'taskAddCtrl'
+                })
+                .when('/taskEdit:id', {
+                    templateUrl: '/taskEdit',
+                    controller: 'taskEditCtrl'
+                })
+                .when('/userEdit', {
+                    templateUrl: '/userEdit',
+                    controller: 'userAddCtrl'
+                })
+                .when('/userEdit:id', {
+                    templateUrl: '/userEdit:id',
+                    controller: 'userEditCtrl'
+                })
+                .when('/tagEdit', {
+                    templateUrl: '/tagEdit',
+                    controller: 'tagAddCtrl'
+                })                
+                .when('/tagEdit:id', {
+                    templateUrl: '/tagEdit:id',
+                    controller: 'tagEditCtrl'
                 })
                 .otherwise({
-                    redirectTo: '/'
+                    redirectTo: '/error'
                 });
-            $locationProvider.html5Mode(true);    
         }]);

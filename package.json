@@ -6,11 +6,12 @@
     "dependencies": {
         "body-parser": "~1.13.2",
         "method-override": "latest",
+        "cookie-parser": "latest",
         "debug": "~2.2.0",
         "express": "~4.13.1",
         "morgan": "~1.6.1",
         "serve-favicon": "~2.3.0",
-        "pug": "latest",
+        "jade": "latest",
         "gulp": "latest",
         "mongoose": "latest",
         "express-session": "latest",

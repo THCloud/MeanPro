@@ -1,0 +1,66 @@
+extends layout
+
+block content	
+	header.jumbotron.subhead
+		.container
+			h1 Task Name
+			p.lead
+				hr
+			p.lead  这里可以随便说点任务介绍或者其他
+	.container
+		.page-header
+			h1 任务详情
+		.row
+			.col-sm-2
+				h4 任务名称
+			.col-sm-10
+				p 随便写点任务名称先
+		.row		
+			.col-sm-2
+				h4 任务标签
+			.col-sm-10
+				p 这里也随便写点任务标签
+		.row
+			.col-sm-2
+				h4 任务状态
+			.col-sm-10
+				p 未完成 	
+		.row
+			.col-sm-2
+				h4 任务描述
+			.col-sm-10.well
+				p 随便说一点任务描述，可以说的多一点反正是well
+		.row
+			.col-sm-2
+				h4 任务进度
+			.col-sm-10
+				table.table.table-striped
+					thead
+						tr
+							th #
+							th Status Name
+							th Reporter Name
+							th State
+					tbody
+						tr
+							td 1
+							td 状态1名称
+							td 状态1报告人
+							td 
+								span.glyphicon.glyphicon-ok
+						tr
+							td 2
+							td 状态2名称
+							td 状态2报告人
+							td 
+								span.glyphicon.glyphicon-ok
+						tr
+							td 3
+							td 状态3名称
+							td 暂无
+							td 待完成
+		.row(style="margin-bottom: 30px;")					
+			button.btn.btn-lg.btn-success(style="margin:0 10px;") 我要push
+			button.btn.btn-lg.btn-danger(style="margin-right: 10px;") 我要delete
+			button.btn.btn-lg.btn-primary 我要edit
+			

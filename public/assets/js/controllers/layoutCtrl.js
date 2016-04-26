@@ -17,6 +17,5 @@ myApp.controller('layoutCtrl', [
 			$scope.goto = function(id) {
 				$location.hash(id);	
 				$anchorScroll();
-			}
-
+			};
 	}]);

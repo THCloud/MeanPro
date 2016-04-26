@@ -7,7 +7,6 @@ html(lang="zh-cn", ng-app="myApp")
 		meta(name="viewport" content="width=device-width, initial-scale=1")
 		meta(name="description" content="mean spa")
 		meta(name="author" content="thcloud")
-		base(href="/")
 		link(rel='stylesheet', href='/dist/css/main.min.css')
 	body(ng-controller="layoutCtrl")
 		nav.navbar.navbar-inverse.navbar-fixed-top
@@ -20,31 +19,18 @@ html(lang="zh-cn", ng-app="myApp")
 						span.icon-bar
 					a.navbar-brand(href="/") Graduation Project
 				.navbar-collapse.collapse#navbar
-					ul.nav.navbar-nav.navbar-right
-						//- li.active(data-toggle="tab")
-						//- 	a(href="/error") 主页
-						li(data-toggle="tab")
-							a(ng-click="goto('about')") 关于
-						li(data-toggle="tab")
-							a(ng-click="goto('about')") 联系我们
-						//- li.dropdown(data-toggle="tab")
-						//- 	a.dropdown-toggle(data-toggle="dropdown" role="button") 下拉菜单
-						//- 	ul.dropdown-menu
-						//- 		li
-						//- 			a(href="#") Action
-						//- 		li
-						//- 			a(href="#") Another Action
-						//- 		li
-						//- 			a(href="#") Something else
-						//- 		li.divider(role="separator")
-						//- 		li.dropdown-header Nav header
-						//- 		li
-						//- 			a(href="#") Separated link
-						//- 		li
-						//- 			a(href="#") One more separated link
+					form.navbar-form.navbar-right
+						.form-group
+							input.form-control(type="text", placeholder="用户名")
+						.form-group
+							input.form-control(type="password", placeholder="密码")
+						button.btn.btn-success(type="submit") 登录
+
 		block content
 		
-		footer.navbar.navbar-inverse#about
+		hr
+		
+		footer.navbar#about
 			.container
 				.row.footer-top
 					.col-sm-6.col-lg-6
@@ -59,11 +45,11 @@ html(lang="zh-cn", ng-app="myApp")
 								h3 关于
 								ul.list-unstyled
 									li
-										a(href="/") 关于我们
+										a(href="/about") 关于我们
 									li
-										a(href="/") 关于你们
+										a(href="/about") 关于你们
 									li
-										a(href="/") 关于他们
+										a(href="/about") 关于他们
 							.col-xs-4
 								h3 联系方式
 								ul.list-unstyled
@@ -79,13 +65,13 @@ html(lang="zh-cn", ng-app="myApp")
 								h3 赞助商
 								ul.list-unstyled
 									li
-										a(href="/error") 灿姐
+										a(href="/") 赞助商1
 									li
-										a(href="#") 德玛鞍山振宇四世
+										a(href="#") 赞助商2
 									li
-										a(href="#") 帝都理工软院
+										a(href="#") 赞助商3
 									li
-										a(href="#") 皇家马鞍山学院	
+										a(href="#") 赞助商4
 				hr
 				.row.footer-bottom
 					ul.list-inline.text-center

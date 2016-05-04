@@ -11,6 +11,8 @@
 
 **gulp** js管理
 
+**mocha** 单元测试
+
 **bootstrap** UI界面
 
 **mongo** 数据库
@@ -38,9 +40,11 @@
 
 **bin** 启动文件夹，包含启动脚本
 
-**config** 包含配置文件，build-config.js用于gulp，db-config.js用于mongodb(没有弄)
+**config** 包含配置文件，build-config.js用于gulp，db-config.js用于mongodb
 
 **public** 包含静态文件，css和js等。分assets和dist两个目录，assets用于开发环境，dist用于生产环境(即使用压缩后的js跟css)
+
+**test** 包含测试用例(有毛病)
 
 ## 使用
 

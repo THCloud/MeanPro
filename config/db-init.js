@@ -29,17 +29,19 @@ var task = require(path.join(conf.models, 'task.js'));
 mongoose.connect(db.url);
 mongoose.connection;
 
+function main () {
+	_init_username()
+		.then(() => console.log('username init success.'))
+		.then(() => _init_login())
+		.then(() => console.log('login init success.'))
+		.then(() => _init_tag())
+		.then(() => console.log('tag init success.'))
+		.then(() => _init_task())
+		.then(() => console.log('task init success.'))
+		.then(() => console.log('db init success. finished.'));
+}
 
-_init_username()
-	.then(() => console.log('username init success.'))
-	.then(() => _init_login())
-	.then(() => console.log('login init success.'))
-	.then(() => _init_tag())
-	.then(() => console.log('tag init success.'))
-	.then(() => _init_task())
-	.then(() => console.log('task init success.'))
-	.then(() => console.log('db init success. finished.'));
-
+main();
 
 function _init_username() {
 	return username.create({ username: "TH_Cloud" });
@@ -92,9 +94,9 @@ function _init_task() {
 		conditions.current = 1;
 		conditions.state = 'unfinished';
 		conditions.reporters = [];
-		conditions.tag = 'tag' + parseInt(i/4+1);
+		conditions.tagName = 'tag' + parseInt(i/4+1);
 		conditions.description = '这是' + 
-								conditions.tag + 
+								conditions.tagName + 
 								'的task' + parseInt(i%4+1);
 		conditions.statusName = [];
 		for(var j = 1; j <= 4; j++) {

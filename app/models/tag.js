@@ -44,16 +44,18 @@ module.exports.deleteTagById = function(conditions, callback) {
 					.nodeify(callback);
 };
 
+// 这个函数有逻辑问题，没有考虑更新的tag跟已有的重复的情况
+// 这个问题扔给前端的controller处理
 module.exports.updateTag = function(conditions, updates, callback) {
 	return task.updateTask(conditions, updates)
-				.then(() => tag.findByIdAndUpdate(conditions, updates).exec())
+				.then(() => tag.findOneAndUpdate(conditions, updates).exec())
 				.then(() => 'success')
 				.nodeify(callback);
 };
 
 module.exports.updateTagById = function(conditions, updates, callback) {
 	return tag.findById(conditions)
-				.then((data) => task.updateTask({tag: data.tag}, updates))
+				.then((data) => task.updateTask({tagName: data.tagName}, updates))
 				.then(() => tag.findByIdAndUpdate(conditions, updates).exec())
 				.then(() => 'success')
 				.nodeify(callback);

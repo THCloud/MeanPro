@@ -34,7 +34,7 @@ var taskSchema = mongoose.Schema({
 	reporters: {
 		type: Array
 	},
-	tag: {
+	tagName: {
 		type: String,
 		require: true
 	},
@@ -65,7 +65,7 @@ module.exports.getTaskInfoById = function(conditions, callback) {
 
 // conditions include taskName. updates include total | statusName | tag | description.
 module.exports.updateTask = function(conditions, updates, callback) {
-	return task.findByIdAndUpdate(conditions, updates, null, callback);
+	return task.update(conditions, updates, { multi: true }, callback);
 };
 
 // conditions include taskName, updates include username.

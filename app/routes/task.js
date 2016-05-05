@@ -27,7 +27,7 @@ router
     // get tasks by tag. no need session.
     .get('/:tag', function (req, res, next) {
     	var query = {
-    		tag: req.params.tag
+    		tagName: req.params.tag
     	};
     	task.getTasksByTag(query, (err, data) => {
     		if (err) {

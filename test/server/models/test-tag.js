@@ -1,7 +1,6 @@
 /**
  *	./test/server/models/test-tag.js
  *  @file     check the mongoose CRUD.
- *            ONLY addTag & getTags !!!
  *
  *  @author   TH_Cloud
  *
@@ -10,7 +9,7 @@
 
 var mongoose = require('mongoose');
 var path = require('path');
-var should = require('chai').should;
+var should = require('chai').should();
 
 var conf = require('../../conf.js');
 var tag = require(path.join(conf.models, 'tag.js'));
@@ -41,7 +40,7 @@ describe('Model-Tag', function () {
 					console.log(err);
 					return;
 				}
-				data.should.be.an.Array();
+				data.should.be.an.Array;
 				data.should.have.length(3);
 				done();
 			});
@@ -61,13 +60,13 @@ describe('Model-Tag', function () {
 		});
 
 		it('should have a tag name="tag6"', function (done) {
-			tag.find({ tagName:"tag6" }, function (err, data) {
+			tag.findOne({ tagName:"tag6" }, function (err, data) {
 				if (err) {
 					console.log(err);
 					return;
 				}
-				data.should.be.an.Object();
-				data.tagName.should.equal("tag6");
+				data.should.be.an.Object;
+				data.should.have.property('tagName').equal("tag6");
 				done();
 			});
 		});
@@ -77,7 +76,6 @@ describe('Model-Tag', function () {
 	describe('#updateTag()', function () {
 		before(function (done) {
 			tag.updateTag({ tagName: "tag3" }, { tagName: "tag5" }, (err, data) => {
-				console.log('update before');
 				done();
 			});
 		});
@@ -86,23 +84,24 @@ describe('Model-Tag', function () {
 		});
 
 		it('should have a tag name="tag5" after updated', function (done) {
-			tag.find({ tagName:"tag5" }, function (err, data) {
+			tag.findOne({ tagName:"tag5" }, function (err, data) {
 				if (err) {
 					console.log(err);
 					return;
 				}
-				data.should.be.an.Object();
-				data.tagName.should.equal("tag5");
+				data.should.be.an.Object;
+				data.should.have.property('tagName').equal("tag5");
+				done();
 			});
 		});
 
 		it('should have no tag name="tag3" after updated', function (done) {
-			tag.find({ tagName:"tag3" }, function (err, data) {
+			tag.findOne({ tagName:"tag3" }, function (err, data) {
 				if (err) {
 					console.log(err);
 					return;
 				}
-				data.should.not.exist();
+				should.not.exist(data);
 				done();
 			});
 		});
@@ -113,7 +112,8 @@ describe('Model-Tag', function () {
 					console.log(err);
 					return;
 				}
-				data.should.not.exist();
+				data.should.be.an.Array;
+				data.should.have.length(0);
 				done();
 			});
 		});
@@ -124,7 +124,7 @@ describe('Model-Tag', function () {
 					console.log(err);
 					return;
 				}
-				data.should.be.an.Array();
+				data.should.be.an.Array;
 				data.should.have.length(4);
 				done();
 			});
@@ -143,12 +143,12 @@ describe('Model-Tag', function () {
 		});
 
 		it('should have no tag name="tag5" after deleted', function (done) {
-			tag.find({ tagName:"tag5" }, function (err, data) {
+			tag.findOne({ tagName:"tag5" }, function (err, data) {
 				if (err) {
 					console.log(err);
 					return;
 				}
-				data.should.not.exist();
+				should.not.exist(data);
 				done();
 			});
 		});
@@ -159,7 +159,8 @@ describe('Model-Tag', function () {
 					console.log(err);
 					return;
 				}
-				data.should.not.exist();
+				data.should.be.an.Array;
+				data.should.have.length(0);
 				done();
 			});
 		});

@@ -121,6 +121,6 @@ module.exports.queryUser = function(conditions, callback) {
 		username: conditions.username,
 		password: crypter.hash(conditions.password)
 	};
-	return login.findOne(conditions, callback);
+	return login.findOne(query, callback);
 };
 

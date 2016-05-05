@@ -27,7 +27,15 @@ describe('Model-Tag', function () {
 
 	// for the method getTags
 	describe('#getTags()', function () {
-		it('should get an array of tags, length of 3', function () {
+		before(function (done) {
+			done();
+		});
+		after(function (done) {
+			done();
+		});
+
+
+		it('should get an array of tags, length of 3', function (done) {
 			tag.getTags(function (err, data) {
 				if (err) {
 					console.log(err);
@@ -35,6 +43,7 @@ describe('Model-Tag', function () {
 				}
 				data.should.be.an.Array();
 				data.should.have.length(3);
+				done();
 			});
 		});
 	});
@@ -47,8 +56,11 @@ describe('Model-Tag', function () {
 				done();
 			});
 		});
+		after(function (done) {
+			done();
+		});
 
-		it('should have a tag name="tag6"', function () {
+		it('should have a tag name="tag6"', function (done) {
 			tag.find({ tagName:"tag6" }, function (err, data) {
 				if (err) {
 					console.log(err);
@@ -56,6 +68,7 @@ describe('Model-Tag', function () {
 				}
 				data.should.be.an.Object();
 				data.tagName.should.equal("tag6");
+				done();
 			});
 		});
 	});
@@ -64,11 +77,15 @@ describe('Model-Tag', function () {
 	describe('#updateTag()', function () {
 		before(function (done) {
 			tag.updateTag({ tagName: "tag3" }, { tagName: "tag5" }, (err, data) => {
+				console.log('update before');
 				done();
 			});
 		});
+		after(function (done) {
+			done();
+		});
 
-		it('should have a tag name="tag5" after updated', function () {
+		it('should have a tag name="tag5" after updated', function (done) {
 			tag.find({ tagName:"tag5" }, function (err, data) {
 				if (err) {
 					console.log(err);
@@ -79,27 +96,29 @@ describe('Model-Tag', function () {
 			});
 		});
 
-		it('should have no tag name="tag3" after updated', function () {
+		it('should have no tag name="tag3" after updated', function (done) {
 			tag.find({ tagName:"tag3" }, function (err, data) {
 				if (err) {
 					console.log(err);
 					return;
 				}
 				data.should.not.exist();
+				done();
 			});
 		});
 
-		it('should have no task belong to tag="tag3"', function () {
+		it('should have no task belong to tag="tag3"', function (done) {
 			task.find({ tagName:"tag3" }, function (err, data) {
 				if (err) {
 					console.log(err);
 					return;
 				}
 				data.should.not.exist();
+				done();
 			});
 		});
 
-		it('should have 4 tasks belong to tag="tag5"', function () {
+		it('should have 4 tasks belong to tag="tag5"', function (done) {
 			task.find({ tagName:"tag5" }, function (err, data) {
 				if (err) {
 					console.log(err);
@@ -107,6 +126,7 @@ describe('Model-Tag', function () {
 				}
 				data.should.be.an.Array();
 				data.should.have.length(4);
+				done();
 			});
 		});
 	});
@@ -118,24 +138,29 @@ describe('Model-Tag', function () {
 				done();
 			});
 		});
+		after(function (done) {
+			done();
+		});
 
-		it('should have no tag name="tag5" after deleted', function () {
+		it('should have no tag name="tag5" after deleted', function (done) {
 			tag.find({ tagName:"tag5" }, function (err, data) {
 				if (err) {
 					console.log(err);
 					return;
 				}
 				data.should.not.exist();
+				done();
 			});
 		});
 
-		it('should have no task belong to tag="tag5" after deleted', function () {
+		it('should have no task belong to tag="tag5" after deleted', function (done) {
 			task.find({ tagName:"tag5" }, function (err, data) {
 				if (err) {
 					console.log(err);
 					return;
 				}
 				data.should.not.exist();
+				done();
 			});
 		});
 	});

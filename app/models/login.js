@@ -28,7 +28,7 @@ var loginSchema = mongoose.Schema({
 var login = module.exports = mongoose.model('login', loginSchema);
 
 /**
- *    conditions is a json, include username:String, password:String
+ *    conditions is a json, include username:Stringkb password:String
  */
 module.exports.addUser = function(conditions, callback) {
 	var query = {

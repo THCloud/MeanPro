@@ -98,7 +98,7 @@ router
 				if (err) {
 					res.json({ errInfo: 'post task failed.'});
 				} else {
-					res.redirect('/edit/:id');
+					res.json(data);
 				}
 			});
 		}
@@ -118,7 +118,7 @@ router
 				if (err) {
 					res.json({ errInfo: 'update task failed.' });
 				} else {
-					res.redirect('/edit/:id');
+					res.json({ state: 'success' });
 				}
 			});
 		}

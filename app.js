@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
-var session-conf = require('./config/session-config.js');
+var sessionConf = require('./config/session-config.js');
 var db = require('./config/db-config.js');
 
 mongoose.connect(db.url);
@@ -25,7 +25,7 @@ var app = express();
  
 
 // for session.
-app.use(session(session-conf));
+app.use(session(sessionConf));
 
 
 // view engine setup

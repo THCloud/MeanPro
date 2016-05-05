@@ -20,10 +20,12 @@ var tagSchema = {
 var tag = module.exports = mongoose.model('tag', tagSchema);
 
 module.exports.addTag = function(conditions, callback) {
-	return tag.create(conditions, callback);
+	return callback ? 
+			tag.create(conditions, callback) :
+			tag.create(conditions);
 };
 
-model.exports.getTags = function(callback) {
+module.exports.getTags = function(callback) {
 	return tag.find(callback);
 }
 
@@ -36,7 +38,7 @@ module.exports.deleteTag = function(conditions, callback) {
 
 module.exports.deleteTagById = function(conditions, callback) {
 		return tag.findById(conditions)
-		      .then((data) => task.deleteTask({ tagName: data.tagName }))
+		      .then((data) => task.deleteTask({ tag: data.tag }))
 					.then(() => tag.findByIdAndRemove(conditions))
 					.then(() => 'success')
 					.nodeify(callback);
@@ -51,7 +53,7 @@ module.exports.updateTag = function(conditions, updates, callback) {
 
 module.exports.updateTagById = function(conditions, updates, callback) {
 	return tag.findById(conditions)
-				.then((data) => task.updateTask({tagName: data.tagName}, updates))
+				.then((data) => task.updateTask({tag: data.tag}, updates))
 				.then(() => tag.findByIdAndUpdate(conditions, updates).exec())
 				.then(() => 'success')
 				.nodeify(callback);

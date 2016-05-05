@@ -40,7 +40,7 @@
 
 **bin** 启动文件夹，包含启动脚本
 
-**config** 包含配置文件，build-config.js用于gulp，db-config.js用于mongodb
+**config** 包含配置文件，build-config.js用于gulp，db-config.js用于mongodb，db-init.js用于初始化数据库(手动执行), session-config.js用于session配置，admin.json是管理员账号密码，可手工修改(密码需要sha256加密)
 
 **public** 包含静态文件，css和js等。分assets和dist两个目录，assets用于开发环境，dist用于生产环境(即使用压缩后的js跟css)
 
@@ -53,12 +53,8 @@
 
 访问127.0.0.1:3000 即可看到了。	
 
-
-## 问题
-
-1. angular的路由默认带#，通过html5Mode设置可以去掉#，但是路由跳转时发现，地址栏改变，资源也请求到，但在浏览器并没显示页面，刷新后有效，但是是另一个请求.
-
-
 ## 备注
 
 这个project还没有做完！
+
+(单元测试没有写完，还没有调完bug，angular的路由还需仔细考虑下没有完成)

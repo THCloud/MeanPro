@@ -10,12 +10,23 @@
 
 myApp.controller('adminCtrl', [
 		'$scope',
+		'$rootScope',
 		'$timeout',
-		function($scope, $timeout){
+		'$location',
+		'AuthService',
+		function($scope, $rootScope, $timeout, $location, AuthService){
+			$scope.adminLogin = function (credentials) {
+				console.log(credentials);
 
-			function _init() {
-				console.log('admin login page loaded.');
-			}	
-			_init();
-
+				AuthService.adminLogin(credentials)
+						.then(function (data) {
+							$rootScope.$broadcast('refresh');
+							
+							// 这里想想办法
+							$location.path('/');
+						}, function (data) {
+							
+							alert('登录失败');
+						});
+			};
 	}]);

@@ -13,7 +13,7 @@ block content
 		form(role="form")
 			.form-group
 				label.form-control.col-sm-2 任务名称
-				input.form-control.col-sm-5(type="text", placeholder="任务名称")
+				input.form-control.col-sm-5(type="text", placeholder="任务名称", ng-model="task.taskName", ng-disabled="pattern=='edit'")
 			.form-group
 				label.form-control.col-sm-2 所属标签
 				.btn-group(data-toggle="buttons")
@@ -43,3 +43,6 @@ block content
 			.form-group
 				label.form-control.col-sm-2 任务描述
 				textarea.form-control.col-sm-6(rows="3")
+			
+			button.btn.btn-lg.btn-success(ng-click="addTask()", ng-show="pattern=='add'")
+			button.btn.btn-lg.btn-primary(ng-click="updateTask()", ng-show="pattern=='edit'")

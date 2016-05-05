@@ -11,11 +11,11 @@ var express = require('express');
 var admin = require('../models/admin.js');
 var login = require('../models/login.js');
 var session = require('express-session');
-var session-conf = require('../../config/session-config.js');
+var sessionConf = require('../../config/session-config.js');
 var router = express.Router();
 
 router
-	.use(session(session-conf))
+	.use(session(sessionConf))
 	.get('/', function (req, res, next) {
 		res.render('admin.jade');
 	})

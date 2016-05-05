@@ -9,14 +9,18 @@
  */
 
 
-angular.module('myApp')
-    .config([
+myApp.config([
         '$routeProvider',
         '$locationProvider',
         function($routeProvider, $locationProvider) {
             $routeProvider
                 .when('/', {
                     templateUrl: '/',
+                    resolve: {
+                        tasks: ['MultiTaskLoader', function(MultiTaskLoader) {
+                            return function(params){return MultiTaskLoader(params);};
+                        }]
+                    },
                     controller: 'indexCtrl'
                 })
                 .when('/error', {
@@ -27,16 +31,26 @@ angular.module('myApp')
                     templateUrl: '/admin',
                     controller: 'adminCtrl'
                 })
-                .when('/taskInfo:id', {
+                .when('/task/:id', {
                     templateUrl: '/taskInfo',
                     controller: 'taskInfoCtrl'
                 })
                 .when('/taskEdit', {
                     templateUrl: '/taskEdit',
+                    resolve: {
+                        Pattern: [function () {
+                            return 'add';
+                        }]
+                    },
                     controller: 'taskAddCtrl'
                 })
-                .when('/taskEdit:id', {
+                .when('/taskEdit/:id', {
                     templateUrl: '/taskEdit',
+                    resolve: {
+                        Pattern: [function () {
+                            return 'edit';
+                        }]
+                    },
                     controller: 'taskEditCtrl'
                 })
                 .when('/userEdit', {

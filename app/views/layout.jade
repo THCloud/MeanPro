@@ -19,13 +19,22 @@ html(lang="zh-cn", ng-app="myApp")
 						span.icon-bar
 					a.navbar-brand(href="/") Graduation Project
 				.navbar-collapse.collapse#navbar
-					form.navbar-form.navbar-right
+					form.navbar-form.navbar-right(name="userLoginForm", ng-submit="userLogin(credentials)", novalidate,ng-show="!currentUser")
 						.form-group
-							input.form-control(type="text", placeholder="用户名")
+							input.form-control(type="text", name="username", placeholder="用户名", required)
 						.form-group
-							input.form-control(type="password", placeholder="密码")
-						button.btn.btn-success(type="submit") 登录
-
+							input.form-control(type="password", name="password", placeholder="密码", required)
+						button.btn.btn-success(type="submit", ng-disabled="userLoginForm.username.$invalid || userLoginForm.password.$invalid") 登录
+					ul.dropdown-menu(ng-show="currentUser")
+						li {{ currentUser }}
+						li(ng-show="currentRole=='normal'")
+							a(ng-href="/user/edit/{{id}}") 修改密码
+						li(ng-show="currentRole=='admin'")
+							a(ng-href="/user/edit") 添加用户
+						li(ng-show="currentRole=='admin'")
+							a(ng-href="/tag/edit") 添加标签
+						li
+							a(ng-click="logout()") 退出
 		block content
 		
 		hr
@@ -67,11 +76,11 @@ html(lang="zh-cn", ng-app="myApp")
 									li
 										a(href="/") 赞助商1
 									li
-										a(href="#") 赞助商2
+										a(href="/") 赞助商2
 									li
-										a(href="#") 赞助商3
+										a(href="/") 赞助商3
 									li
-										a(href="#") 赞助商4
+										a(href="/") 赞助商4
 				hr
 				.row.footer-bottom
 					ul.list-inline.text-center

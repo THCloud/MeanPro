@@ -10,15 +10,15 @@ block content
 	.container
 		.page-header
 			h1 用户编辑
-		form
+		form(name="userAddForm", novalidate)
 			.form-group
 				label.form-control.col-sm-2(for="username") 用户名
-				input.form-control.col-sm-5(name="username", type="text", placeholder="用户名")
+				input.form-control.col-sm-5(name="username", type="text", placeholder="用户名", ng-disabled="userRole=='normal'", ng-model="username")
 			.form-group
 				label.form-control.col-sm-2(for="password") 密码
-				input.form-control.col-sm-5(name="password", type="password", placeholder="密码")
+				input.form-control.col-sm-5(name="password", type="password", placeholder="密码", ng-model="password")
 			.form-group
-				label.form-control.col-sm-2(for="password") 确认密码
-				input.form-control.col-sm-5(name="password", type="password", placeholder="确认密码")	
-			button.btn.btn-lg.btn-primary 修改密码
-			button.btn.btn-lg.btn-success 创建用户		
+				label.form-control.col-sm-2(for="repeat") 确认密码
+				input.form-control.col-sm-5(name="repeat", type="password", placeholder="确认密码")	
+			button.btn.btn-lg.btn-primary(ng-show="userRole=='normal'", ng-click="updatePassword()" ng-disabled="userAddForm.password.$invalid || userAddForm.password != userAddForm.repeat") 修改密码
+			button.btn.btn-lg.btn-success(ng-show="userRole=='admin'", ng-click="addUser()" ng-disabled="userAddForm.username.$invalid || userAddForm.password.$invalid || userAddForm.password != userAddForm.repeat") 创建用户		

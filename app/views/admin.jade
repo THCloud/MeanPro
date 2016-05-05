@@ -10,18 +10,18 @@ html(lang="zh-cn", ng-app="myApp")
 		link(rel='stylesheet', href='/dist/css/main.min.css')
 	body(ng-controller="adminCtrl" style="background: #eeeefe;")
 		.container
-			form.form-signin
-				.form-group
-					h1
-						img(src="login.png")
-				.form-group
-					h1 Administrator
-				.form-group
-					label.sr-only(for="username") 用户名
-					input.form-control(type="text", name="username", placeholder="用户名")
-				.form-group
-					label.sr-only(for="username") 密码
-					input.form-control(type="text", name="username", placeholder="密码")
-				button.btn.btn-lg.btn-primary.btn-block(type="submit") 登录
-
-script(src='/dist/js/app.min.js')		
+			form.form-signin(name="AdminLoginForm", ng-submit="adminLogin(credentials)", novalidate)
+				fieldset
+					.form-group
+						h1
+							img(src="login.png")
+					.form-group
+						h1 Administrator
+					.form-group
+						label.sr-only(for="username") 用户名
+						input.form-control(type="text", name="username", placeholder="用户名", ng-model="credentials.username", required)
+					.form-group
+						label.sr-only(for="password") 密码
+						input.form-control(type="password", name="password", placeholder="密码", ng-model="credentials.password", required)
+					button.btn.btn-lg.btn-primary.btn-block(type="submit", ng-disabled="AdminLoginForm.username.$invalid || AdminLoginForm.password.$invalid") 登 录
+	script(src='/dist/js/app.min.js')	

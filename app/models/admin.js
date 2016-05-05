@@ -1,11 +1,14 @@
 var Bourne = require('bourne');
 var crypter = require('../crypt.js');
-var db = module.exports = new Bourne('../../config/admin.json');
+var path = require('path');
+
+var db = new Bourne(path.join(__dirname, '../../config/admin.json'));
+
 
 module.exports.queryAdmin = function(conditions, callback) {
 	var query = {
 		username: conditions.username,
-		password: crypter.hash(password)
+		password: crypter.hash(conditions.password)
 	};
 	return db.findOne(query, callback);
 };

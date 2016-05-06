@@ -70,7 +70,7 @@ module.exports.updateTask = function(conditions, updates, callback) {
 
 // conditions include taskName, updates include username.
 module.exports.pushTask = function(conditions, updates, callback) {
-	return task.findById(conditions)
+	return task.findOne(conditions)
 				.then(data => updateStatus(data, updates.username))
 				.then(newData => task.findOneAndUpdate(conditions, newData).exec())
 				.then(() => 'success')

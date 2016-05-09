@@ -14,29 +14,24 @@ myApp.config([
         '$locationProvider',
         function($routeProvider, $locationProvider) {
             $routeProvider
-                .when('/', {
-                    templateUrl: '/',
-                    resolve: {
-                        tasks: ['MultiTaskLoader', function(MultiTaskLoader) {
-                            return function(params){return MultiTaskLoader(params);};
-                        }]
-                    },
+                .when('/main', {
+                    templateUrl: '/main',
                     controller: 'indexCtrl'
                 })
-                .when('/error', {
-                    templateUrl: '/error',
-                    controller: 'errorCtrl'
-                })
+                // .when('/error', {
+                //     templateUrl: '/error',
+                //     controller: 'errorCtrl'
+                // })
                 .when('/admin', {
                     templateUrl: '/admin',
                     controller: 'adminCtrl'
                 })
                 .when('/task/:id', {
-                    templateUrl: '/taskInfo',
+                    templateUrl: '/task/:id',
                     controller: 'taskInfoCtrl'
                 })
-                .when('/taskEdit', {
-                    templateUrl: '/taskEdit',
+                .when('/task/edit', {
+                    templateUrl: '/task/edit',
                     resolve: {
                         Pattern: [function () {
                             return 'add';
@@ -44,8 +39,8 @@ myApp.config([
                     },
                     controller: 'taskAddCtrl'
                 })
-                .when('/taskEdit/:id', {
-                    templateUrl: '/taskEdit',
+                .when('/task/edit/:id', {
+                    templateUrl: '/task/edit',
                     resolve: {
                         Pattern: [function () {
                             return 'edit';
@@ -53,23 +48,23 @@ myApp.config([
                     },
                     controller: 'taskEditCtrl'
                 })
-                .when('/userEdit', {
-                    templateUrl: '/userEdit',
+                .when('/user/edit', {
+                    templateUrl: '/user/edit',
                     controller: 'userAddCtrl'
                 })
-                .when('/userEdit:id', {
-                    templateUrl: '/userEdit:id',
+                .when('/user/edit/:id', {
+                    templateUrl: '/user/edit',
                     controller: 'userEditCtrl'
                 })
-                .when('/tagEdit', {
-                    templateUrl: '/tagEdit',
+                .when('/tag/edit', {
+                    templateUrl: '/tag/edit',
                     controller: 'tagAddCtrl'
                 })                
-                .when('/tagEdit:id', {
-                    templateUrl: '/tagEdit:id',
+                .when('/tag/edit/:id', {
+                    templateUrl: '/tag/edit',
                     controller: 'tagEditCtrl'
                 })
                 .otherwise({
-                    redirectTo: '/error'
+                    redirectTo: '/main'
                 });
         }]);

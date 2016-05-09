@@ -14,6 +14,7 @@ var src = {
         './bower_components/bootstrap/dist/js/bootstrap.js',
         './bower_components/angular/angular.js',
         './bower_components/angular-route/angular-route.js',
+        './bower_components/angular-resource/angular-resource.js',
         
         './public/assets/js/app.js',
 	    './public/assets/js/controllers/*.js',

@@ -3,6 +3,7 @@
 	"dependencies": {
 		"angular": "latest",
 		"bootstrap": "^3.3.6",
-		"angular-route": "latest"
+		"angular-route": "latest",
+		"angular-resource": "latest"
 	}
 }

@@ -26,7 +26,7 @@ router
 			} else if (data) {
 				req.session.userRole = 'normal';
 				req.session.username = data.username;
-				res.json({ state: 'success' });
+				res.json(data);
 			} else {
 				res.json({ errInfo: 'auth failed.' });
 			}

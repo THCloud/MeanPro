@@ -43074,11 +43074,11 @@ $provide.value("$locale", {
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 /**
- * @license AngularJS v1.5.3
+ * @license AngularJS v1.5.5
  * (c) 2010-2016 Google, Inc. http://angularjs.org
  * License: MIT
  */
-(function(window, angular, undefined) {'use strict';
+(function(window, angular) {'use strict';
 
 /**
  * @ngdoc module
@@ -43097,11 +43097,7 @@ $provide.value("$locale", {
  */
  /* global -ngRouteModule */
 var ngRouteModule = angular.module('ngRoute', ['ng']).
-                        provider('$route', $RouteProvider).
-                        // Ensure `$route` will be instantiated in time to capture the initial
-                        // `$locationChangeSuccess` event. This is necessary in case `ngView` is
-                        // included in an asynchronously loaded template.
-                        run(['$route', angular.noop]),
+                        provider('$route', $RouteProvider),
     $routeMinErr = angular.$$minErr('ngRoute');
 
 /**
@@ -43834,6 +43830,13 @@ ngRouteModule.directive('ngView', ngViewFillContentFactory);
  * | {@link ng.$animate#leave leave}  | when the old element is removed from to the DOM  |
  *
  * The enter and leave animation occur concurrently.
+ *
+ * @knownIssue If `ngView` is contained in an asynchronously loaded template (e.g. in another
+ *             directive's templateUrl or in a template loaded using `ngInclude`), then you need to
+ *             make sure that `$route` is instantiated in time to capture the initial
+ *             `$locationChangeStart` event and load the appropriate view. One way to achieve this
+ *             is to have it as a dependency in a `.run` block:
+ *             `myModule.run(['$route', function() {}]);`
  *
  * @scope
  * @priority 400
@@ -44890,16 +44893,12 @@ myApp.controller('adminCtrl', [
 
 				AuthService.adminLogin(credentials)
 						.then(function (data) {
-							// refresh是layoutCtrl的事件，跟adminCtrl是分离的
-							// 想办法用broadcast广播刷新事件
-
-							$rootScope.broadcast('refresh');
+							$rootScope.$broadcast('refresh');
 							
 							// 这里想想办法
-							$location.path('/index');
+							$location.path('/');
 						}, function (data) {
 							
-							// 这里可以考虑更友好的错误信息提示
 							alert('登录失败');
 						});
 			};
@@ -44947,37 +44946,60 @@ myApp.controller('errorCtrl', [
 
 myApp.controller('indexCtrl', [
 		'$scope',
-		'tasks',
-		'Tag',
+		'$http',
+		'AuthService',
 		'$timeout',
-		function($scope, tasks, Tag, $timeout){
-			$scope.Tasks = [];
+		function($scope, $http, AuthService, $timeout){
+			$scope.tasks = [];
 			$scope.tags = [];
+			$scope.redirectAble = AuthService.isLogined();
 
-			function fetchTasks(params) {
-				return tasks(params)
-						.then(function (data) {
-							$scope.Tasks = data;
-						}, function (err) {
+			$scope.toggleTag = function (tag) {
+				if (tag) {
+					$http.get('/task/' + tag.tagName)
+						.then(function (res) {
+							$scope.tasks = res.data;
+						}, function (res) {	
+							alert('network error. toggle tag failed.');
+						});					
+				} else {
+					fetchTasks();
+				}
+			};
 
-						});
+			$scope.togglePage = function (pageNum) {
+
+			};
+			
+			$scope.$on('refresh', function () {
+				$scope.redirectAble = AuthService.isLogined();
+			});
+
+			function fetchTasks() {
+				$http.get('/task')
+					.then(function (res) {
+						$scope.tasks = res.data;
+					}, function (res) {
+						alert('network error. get tasks failed.');
+					});
 			}
 
 			function fetchTags() {
-				return Tag.fetch()
-						.then(function (data) {
-							$scope.tags = data;
-						}, function (err) {
-
-						});
+				$http.get('/tag')
+					.then(function (res) {
+						$scope.tags = res.data;			
+					}, function (res) {	
+						alert('network error. fetch tag failed');
+					});
 			}
 
 			function _init() {
-				fetchTasks({ skip: 0, limit: 10 });
+				fetchTasks();
 				fetchTags();
 			}
 			
 			_init();
+
 	}]);
 /**
  *  ./public/assets/js/controller/layoutCtrl.js
@@ -44991,19 +45013,21 @@ myApp.controller('indexCtrl', [
 
 myApp.controller('layoutCtrl', [
 		'$scope',
+		'$rootScope',
 		'$timeout',
 		'$location',
 		'$anchorScroll',
 		'AuthService',
 		'Session',
-		function($scope, $timeout, $location, $anchorScroll, AuthService, Session) {
-			$scope.currentUser = null;
-			$scope.currentRole = null;
+		function($scope, $rootScope, $timeout, $location, $anchorScroll, AuthService, Session) {
+			$scope.currentUser = Session.username;
+			$scope.currentRole = Session.userRole;
+			$scope.userId = Session.userId;
 
 			$scope.userLogin = function (credentials) {
 				AuthService.userLogin(credentials)
 						.then(function (data) {
-							refresh();
+							$rootScope.$broadcast('refresh');
 						}, function (data) {
 							// 这里做点错误提示，用个modal啥的
 							console.log('login failed');
@@ -45018,16 +45042,30 @@ myApp.controller('layoutCtrl', [
 			$scope.logout = function () {
 				AuthService.logout()
 					.then(function () {
-						$scope.refresh();
+						refresh();
 					});
 			};
 
-			$scope.on('refresh', refresh);
+			$scope.$on('refresh', refresh);
 			
+			$scope.$on('$routeChangeSuccess', function (evt, next, previous) {
+				if (!!next.$$route) {
+					$scope.currentRoutePath = next.$$route.originalPath;
+				}
+			});
+
 			function refresh() {
 				$scope.currentUser = Session.username;
 				$scope.currentRole = Session.userRole;
+				$scope.userId = Session.userId;
 			}
+
+			function _init() {
+				console.log("layoutCtrl inited.");
+				console.log("session username " + $scope.currentUser);
+				console.log("session userRole " + $scope.currentRole);
+			}
+			_init();
 
 	}]);
 /**
@@ -45059,34 +45097,66 @@ myApp.controller('tagAddCtrl', [
 myApp.controller('tagEditCtrl', [
 		'$scope',
 		'$timeout',
-		function($scope, $timeout){
-		
-	}]);
-/**
- *  ./public/assets/js/controller/taskAddCtrl.js
- *
- *  @file    this controller is for index page.
- *
- *  @author  TH_Cloud
- *	
- */
+		'$location',
+		'$route',
+		'Pattern',
+		function($scope, $timeout, $location, $route, Pattern) {
+			$scope.tag = {
+				tagName: ''
+			};
+			$scope.pattern = Pattern();
 
+			$scope.addTag = function () {
+				$http.post('/tag', $scope.tag)
+					.then(successCallback, errorCallback);
+			};
 
-myApp.controller('taskInfoCtrl', [
-		'$scope',
-		'$timeout',
-		function($scope, $timeout){
-		
+			$scope.updateTag = function () {
+				$http.put('/tag/' + $route.current.params.id)
+					.then(successCallback, errorCallback);
+			};
+
+			$scope.deleteTag = function () {
+				$http.delete('/tag/' + $route.current.params.id)
+					.then(successCallback, errorCallback);
+			};
+
+			function fetchTag() {
+				$http.get('/tag/' + $route.current.params.id)
+					.then(function (res) {
+						if (res.data.errInfo) {
+							alert('failed');
+						} else {
+							$scope.tag = res.data;
+						}
+					}, errorCallback);
+			}
+
+			function successCallback(res) {
+				if (res.data.state == 'success') {
+					alert('success');
+				} else {
+					alert('failed');
+				}
+			}
+
+			function errorCallback(res) {
+				alert('network error');
+			}
+
 			function _init() {
-				console.log('taskAdd page loaded.');
+				if ($scope.pattern == 'edit') {
+					fetchTag();
+				}
 			}
 
 			_init();
+
 	}]);
 /**
  *  ./public/assets/js/controller/taskEditCtrl.js
  *
- *  @file    this controller is for index page.
+ *  @file    this controller is for task edit page.
  *
  *  @author  TH_Cloud
  *	
@@ -45096,10 +45166,64 @@ myApp.controller('taskInfoCtrl', [
 myApp.controller('taskEditCtrl', [
 		'$scope',
 		'$timeout',
-		function($scope, $timeout){
-		
+		'$http',
+		'$route',
+		'$location',
+		'Pattern',
+		function($scope, $timeout, $http, $route, $location, Pattern){
+			$scope.pattern = Pattern();
+			$scope.task = {};
+			$scope.tags = [];
+
+			$scope.addTask = function () {
+				$http.post('/task', $scope.task)
+					.then(function (res) {
+						if (res.data.state == 'success') {
+							alert('success');
+							$location.path('/');
+						} else {
+							alert('failed');
+						}
+					}, function (res) {
+						alert('network error.');
+					});
+			};
+
+			$scope.updateTask = function () {
+				$http.put('/task/edit/' + $route.current.params.id)
+					.then(function (res) {
+						if (res.data.state == 'success') {
+							alert('success');
+							$location.path('/task/' + $route.current.params.id);
+						} else {
+							alert('failed');
+						}
+					}, errorCallback);
+			};
+
+			function fetchTaskInfo() {
+				$http.get('/task/edit/' + $route.current.params.id)
+					.then(function (res) {
+						$scope.task = res.data;
+					}, errorCallback);
+			}
+
+			function fetchTags() {
+				$http.get('/tag')
+					.then(function (res) {
+						$scope.tags = res.data;			
+					}, errorCallback);
+			}
+
+			function errorCallback(res) {
+				alert('network error');
+			}
+
 			function _init() {
-				console.log('taskEdit page loaded.');
+				if ($scope.pattern == 'edit') {
+					fetchTaskInfo();
+				}
+				fetchTags();
 			}
 
 			_init();
@@ -45107,7 +45231,7 @@ myApp.controller('taskEditCtrl', [
 /**
  *  ./public/assets/js/controller/taskInfoCtrl.js
  *
- *  @file    this controller is for index page.
+ *  @file    this controller is for taskInfo page.
  *
  *  @author  TH_Cloud
  *	
@@ -45116,36 +45240,55 @@ myApp.controller('taskEditCtrl', [
 
 myApp.controller('taskInfoCtrl', [
 		'$scope',
+		'$http',
+		'Session',
+		'$route',
+		'$location',
 		'$timeout',
-		function($scope, $timeout){
-		
-			function _init() {
-				console.log('taskInfo page loaded.');
+		function($scope, $http, Session, $route, $location, $timeout){
+			$scope.task = {};
+			$scope.userRole = Session.userRole;
+			var path = "";
+
+			$scope.pushTask = function () {
+				$http.post(path, {})
+					.then(function (res) {
+						alert('success');
+						$scope.task = res.data;
+					}, errorCallback);
+			};
+
+			$scope.deleteTask = function () {
+				$http.delete(path)
+					.then(function (res) {
+						alert('success');
+						$location.path('/');
+					}, errorCallback);				
+			};
+
+			$scope.editTask = function () {
+				$location.path('/task/edit/' + $route.current.params.id);
+			};
+
+			function fetchTaskInfo() {	
+				$http.get('/task/edit/5730351cd44e69d30ad1f3b1')
+					.then(function (res) {
+						$scope.task = res.data;
+					}, errorCallback);
+			}
+
+			function errorCallback(res) {
+				alert('network failed.');
+			}
+
+			function _init() { 
+				console.log("init taskInfo.");
+				fetchTaskInfo();
 			}
 
 			_init();
-	}]);
-/**
- *  ./public/assets/js/controller/userAddCtrl.js
- *
- *  @file    this controller is for index page.
- *
- *  @author  TH_Cloud
- *	
- */
-
-
-myApp.controller('userAddCtrl', [
-		'$scope',
-		'$timeout',
-		function($scope, $timeout){
 		
-			function _init() {
-				console.log('userAdd page loaded.');
-			}
-
-			_init();
-	}]);
+		}]);
 /**
  *  ./public/assets/js/controller/userEditCtrl.js
  *
@@ -45159,11 +45302,48 @@ myApp.controller('userAddCtrl', [
 myApp.controller('userEditCtrl', [
 		'$scope',
 		'$timeout',
-		function($scope, $timeout){
-		
+		'$route',
+		'$http',
+		'Session',
+		function($scope, $timeout, $route, Session){
+			$scope.username = '';
+			$scope.userRole = Session.userRole;
+			$scope.password = '';
+
+			$scope.updatePassword = function () {
+				var data = {
+					password: $scope.password
+				};
+				$http.put('/login', data)
+					.then(successCallback, errorCallback);
+			};
+
+			$scope.addUser = function () {
+				var data = {
+					username: $scope.username,
+					password: $scope.password
+				};
+				$http.put('/admin/add', data)
+					.then(successCallback, errorCallback);
+			};
+
 			function _init() {
-				console.log('userEdit page loaded.');
+				if (Session.userRole == 'normal') {
+					$scope.username = Session.username;
+				}
 			}
+
+			function successCallback(res) {
+				if (res.data.state == 'success') {
+					alert('success');
+				} else {
+					alert('failed');
+				}
+			}
+
+			function errorCallback(res) {
+				alert('network error.');
+			}	
 
 			_init();
 	}]);
@@ -45219,38 +45399,6 @@ services.factory('AuthService', [
 		}]);
 
 /**
- *  ./public/assets/js/services/MultiTaskLoader.js
- *
- *  @file     Include the MultiTaskLoader service.
- *
- *  @author   TH_Cloud
- *
- */
-
-services.factory('Task', [
-		'$resource',
-		function($resource) {
-			return $resource('/task/:tag', { tag: '@_tag' }, {
-				post: { method: 'POST' },
-				update: { method: 'PUT' },
-				delete: { method: 'DELETE' } });
-		}]);
-
-services.factory('MultiTaskLoader', [
-		'Task',
-		'$q',
-		function (Task, $q) {
-			return function(params) {
-				var delay = $q.defer();
-				Task.query(params, function(tasks) {
-					delay.resolve(tasks);
-				}, function() {
-					delay.reject('unable to fetch tasks');
-				});
-				return delay.promise;
-			};
-		}]);
-/**
  *  ./public/assets/js/services/Session.js
  *
  *  @file     Include the Session service.
@@ -45259,7 +45407,7 @@ services.factory('MultiTaskLoader', [
  *
  */
 
-services.factory('Session', function () {
+services.service('Session', function () {
 	this.create = function (userId, username, userRole) {
 		this.userId = userId;
 		this.username = username;
@@ -45272,72 +45420,6 @@ services.factory('Session', function () {
 	};
 	return this;
 });
-/**
- *  ./public/assets/js/services/TagLoader.js
- *
- *  @file     Include the TagLoader service.Will be used when loading all tags.
- *
- *  @author   TH_Cloud
- *
- */
-
-services.factory('Tag', [
-		'$resource',
-		function($resource) {
-			return $resource('/tag/:id', { id: '@_id' }, {
-				put: { method: 'PUT' },
-				delete: { method: 'DELETE' },
-				fetch:{ method: 'GET', url: '/tag' } });
-		}]);
-
-services.factory('TagLoader', [
-		'Tag',
-		'$route',
-		'$q',
-		function (Tag, $route, $q) {
-			return function() {
-				var delay = $q.defer();
-				Tag.get({ id: $route.current.params.id }, function(taskInfo) {
-					delay.resolve(taskInfo);
-				}, function() {
-					delay.reject('unable to fetch tag ' + $route.current.params.id);
-				});
-				return delay.promise;
-			};
-		}]);
-/**
- *  ./public/assets/js/services/TaskEditLoader.js
- *
- *  @file     Include the TaskEditLoader service. Will be used when open a task.
- *
- *  @author   TH_Cloud
- *
- */
-
-services.factory('TaskEdit', [
-		'$resource',
-		function($resource) {
-			return $resource('/task/edit/:id', { id: '@_id' }, {
-				post: { method: 'POST' },
-				update: { method: 'PUT' },
-				delete: { method: 'DELETE' } });
-		}]);
-
-services.factory('TaskEditLoader', [
-		'TaskEdit',
-		'$route',
-		'$q',
-		function (TaskEdit, $route, $q) {
-			return function() {
-				var delay = $q.defer();
-				TaskEdit.get({ id: $route.current.params.id }, function(taskInfo) {
-					delay.resolve(taskInfo);
-				}, function() {
-					delay.reject('unable to fetch task ' + $route.current.params.id);
-				});
-				return delay.promise;
-			};
-		}]);
 /**
  * public/assets/js/route.js
  *
@@ -45354,53 +45436,58 @@ myApp.config([
         '$locationProvider',
         function($routeProvider, $locationProvider) {
             $routeProvider
-                .when('/', {
-                    templateUrl: '/',
-                    resolve: {
-                        tasks: ['MultiTaskLoader', function(MultiTaskLoader) {
-                            return function(params){return MultiTaskLoader(params);};
-                        }]
-                    },
+                .when('/main', {
+                    templateUrl: '/main',
                     controller: 'indexCtrl'
                 })
-                .when('/error', {
-                    templateUrl: '/error',
-                    controller: 'errorCtrl'
-                })
+                // .when('/error', {
+                //     templateUrl: '/error',
+                //     controller: 'errorCtrl'
+                // })
                 .when('/admin', {
                     templateUrl: '/admin',
                     controller: 'adminCtrl'
                 })
-                .when('/taskInfo:id', {
-                    templateUrl: '/taskInfo',
+                .when('/task/:id', {
+                    templateUrl: '/task/:id',
                     controller: 'taskInfoCtrl'
                 })
-                .when('/taskEdit', {
-                    templateUrl: '/taskEdit',
+                .when('/task/edit', {
+                    templateUrl: '/task/edit',
+                    resolve: {
+                        Pattern: [function () {
+                            return 'add';
+                        }]
+                    },
                     controller: 'taskAddCtrl'
                 })
-                .when('/taskEdit/:id', {
-                    templateUrl: '/taskEdit',
+                .when('/task/edit/:id', {
+                    templateUrl: '/task/edit',
+                    resolve: {
+                        Pattern: [function () {
+                            return 'edit';
+                        }]
+                    },
                     controller: 'taskEditCtrl'
                 })
-                .when('/userEdit', {
-                    templateUrl: '/userEdit',
+                .when('/user/edit', {
+                    templateUrl: '/user/edit',
                     controller: 'userAddCtrl'
                 })
-                .when('/userEdit:id', {
-                    templateUrl: '/userEdit:id',
+                .when('/user/edit/:id', {
+                    templateUrl: '/user/edit',
                     controller: 'userEditCtrl'
                 })
-                .when('/tagEdit', {
-                    templateUrl: '/tagEdit',
+                .when('/tag/edit', {
+                    templateUrl: '/tag/edit',
                     controller: 'tagAddCtrl'
                 })                
-                .when('/tagEdit:id', {
-                    templateUrl: '/tagEdit:id',
+                .when('/tag/edit/:id', {
+                    templateUrl: '/tag/edit',
                     controller: 'tagEditCtrl'
                 })
                 .otherwise({
-                    redirectTo: '/error'
+                    redirectTo: '/main'
                 });
         }]);
 

@@ -7,8 +7,8 @@ block content
 			p.lead
 				hr
 			p.lead  这里可以随便说点介绍啊，公告啊一类的话
-			p.lead  我们直接用这个页面显示所有的task了
-	.container
+			p.lead  我们直接用这个页面显示所有的task了,或者可以根据tag来切换任务
+	.container(ng-controller="indexCtrl")
 		.row
 			.col-sm-9
 				.page-header(style="margin-top:0")
@@ -20,9 +20,8 @@ block content
 						p.list-group-item-text {{ task.description }}
 			nav.col-sm-3
 				ul.nav.list-group(style="margin-top: 18px;")
-					li.list-group-item.active(data-toggle="tab") 全部
-					li.list-group-item(data-toggle="tab", ng-repeat="tag in tags")
-						a(ng-click="toggleTag(tag)") {{ tag.tagName }}
+					li.list-group-item.active(data-toggle="tab", ng-click="toggleTag()") 全部
+					li.list-group-item(data-toggle="tab", ng-repeat="tag in tags", ng-click="toggleTag(tag)") {{ tag.tagName }}
 		nav(ng-show="false")
 			ul.pagination
 				li

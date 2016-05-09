@@ -17,8 +17,9 @@ myApp.controller('layoutCtrl', [
 		'AuthService',
 		'Session',
 		function($scope, $rootScope, $timeout, $location, $anchorScroll, AuthService, Session) {
-			$scope.currentUser = null;
-			$scope.currentRole = null;
+			$scope.currentUser = Session.username;
+			$scope.currentRole = Session.userRole;
+			$scope.userId = Session.userId;
 
 			$scope.userLogin = function (credentials) {
 				AuthService.userLogin(credentials)
@@ -44,9 +45,23 @@ myApp.controller('layoutCtrl', [
 
 			$scope.$on('refresh', refresh);
 			
+			$scope.$on('$routeChangeSuccess', function (evt, next, previous) {
+				if (!!next.$$route) {
+					$scope.currentRoutePath = next.$$route.originalPath;
+				}
+			});
+
 			function refresh() {
 				$scope.currentUser = Session.username;
 				$scope.currentRole = Session.userRole;
+				$scope.userId = Session.userId;
 			}
+
+			function _init() {
+				console.log("layoutCtrl inited.");
+				console.log("session username " + $scope.currentUser);
+				console.log("session userRole " + $scope.currentRole);
+			}
+			_init();
 
 	}]);

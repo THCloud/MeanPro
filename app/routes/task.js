@@ -24,6 +24,10 @@ router
 		}, 10);
     })
 
+	.get('/:id', function (req, res, next) {
+		res.render('taskInfo.jade');
+	})
+
     // get tasks by tag. no need session.
     .get('/:tag', function (req, res, next) {
     	var query = {

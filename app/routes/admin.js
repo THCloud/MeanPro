@@ -17,6 +17,7 @@ var router = express.Router();
 router
 	.use(session(sessionConf))
 	.get('/', function (req, res, next) {
+		console.log("do render the jade");
 		res.render('admin.jade');
 	})
 

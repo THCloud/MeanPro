@@ -18,8 +18,8 @@ myApp.controller('taskInfoCtrl', [
 		function($scope, $http, Session, $route, $location, $timeout){
 			$scope.task = {};
 			$scope.userRole = Session.userRole;
-			var path = '/task/edit/' + $route.current.params.id;
-			
+			var path = "";
+
 			$scope.pushTask = function () {
 				$http.post(path, {})
 					.then(function (res) {
@@ -40,8 +40,8 @@ myApp.controller('taskInfoCtrl', [
 				$location.path('/task/edit/' + $route.current.params.id);
 			};
 
-			function fetchTaskInfo() {
-				$http.get(path)
+			function fetchTaskInfo() {	
+				$http.get('/task/edit/5730351cd44e69d30ad1f3b1')
 					.then(function (res) {
 						$scope.task = res.data;
 					}, errorCallback);
@@ -52,8 +52,10 @@ myApp.controller('taskInfoCtrl', [
 			}
 
 			function _init() { 
+				console.log("init taskInfo.");
 				fetchTaskInfo();
 			}
 
 			_init();
+		
 		}]);

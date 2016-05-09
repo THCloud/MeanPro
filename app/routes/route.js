@@ -12,15 +12,15 @@ var express = require('express');
 var router = express.Router();
 
 router
-	.get('/', function (req, res, next) {
+	.get('/main', function (req, res, next) {
 		res.render('index.jade');
+	})	
+	.get('/user/edit', function (req, res, next) {
+		res.render('userEdit.jade');
 	})
-	.get('/error', function (req, res, next) {
-		res.render('error.jade');
+	.get('/user/edit/:id', function (req, res, next) {
+		res.redner('userEdit.jade');
 	})
-	.get('/taskInfo', function (req, res, next) {
-		res.render('taskInfo.jade');
-	})		
 	.get('/about', function (req, res, next) {
 		res.render('about.jade');
 	})
@@ -29,6 +29,9 @@ router
 		req.session.userRole = null;
 		res.json({ state: 'success' });
 	});
+	// .get('/error', function (req, res, next) {
+	// 	res.render('error.jade');
+	// });
 
 
 module.exports = router;

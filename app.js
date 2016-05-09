@@ -2,7 +2,7 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');      
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
@@ -13,7 +13,7 @@ mongoose.connect(db.url);
 mongoose.connection;
 
 
-// routes. NOT FINISHED !!!
+// routes. 
 var routes = require('./app/routes/route.js');
 var login  = require('./app/routes/login.js');
 var admin = require('./app/routes/admin.js');

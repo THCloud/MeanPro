@@ -11,7 +11,7 @@
 myApp.controller('indexCtrl', [
 		'$scope',
 		'$http',
-		'Session',
+		'AuthService',
 		'$timeout',
 		function($scope, $http, AuthService, $timeout){
 			$scope.tasks = [];
@@ -19,12 +19,16 @@ myApp.controller('indexCtrl', [
 			$scope.redirectAble = AuthService.isLogined();
 
 			$scope.toggleTag = function (tag) {
-				$http.get('/task/' + tag.tagName)
-					.then(function (res) {
-						$scope.tasks = res.data;
-					}, function (res) {	
-						alert('network error. toggle tag failed.');
-					});
+				if (tag) {
+					$http.get('/task/' + tag.tagName)
+						.then(function (res) {
+							$scope.tasks = res.data;
+						}, function (res) {	
+							alert('network error. toggle tag failed.');
+						});					
+				} else {
+					fetchTasks();
+				}
 			};
 
 			$scope.togglePage = function (pageNum) {
@@ -59,4 +63,5 @@ myApp.controller('indexCtrl', [
 			}
 			
 			_init();
+
 	}]);

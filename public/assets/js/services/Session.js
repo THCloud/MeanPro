@@ -7,7 +7,7 @@
  *
  */
 
-services.factory('Session', function () {
+services.service('Session', function () {
 	this.create = function (userId, username, userRole) {
 		this.userId = userId;
 		this.username = username;

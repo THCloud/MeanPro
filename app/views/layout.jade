@@ -19,22 +19,26 @@ html(lang="zh-cn", ng-app="myApp")
 						span.icon-bar
 					a.navbar-brand(href="/") Graduation Project
 				.navbar-collapse.collapse#navbar
-					form.navbar-form.navbar-right(name="userLoginForm", ng-submit="userLogin(credentials)", novalidate,ng-show="!currentUser")
+					form.navbar-form.navbar-right(name="userLoginForm", ng-submit="userLogin(credentials)", novalidate, ng-show="!currentUser")
 						.form-group
-							input.form-control(type="text", name="username", placeholder="用户名", required)
+							input.form-control(type="text", name="username", placeholder="用户名", ng-model="credentials.username",required)
 						.form-group
-							input.form-control(type="password", name="password", placeholder="密码", required)
+							input.form-control(type="password", name="password", placeholder="密码", ng-model="credentials.password",required)
 						button.btn.btn-success(type="submit", ng-disabled="userLoginForm.username.$invalid || userLoginForm.password.$invalid") 登录
-					ul.dropdown-menu(ng-show="currentUser")
-						li {{ currentUser }}
-						li(ng-show="currentRole=='normal'")
-							a(ng-href="/user/edit/{{id}}") 修改密码
-						li(ng-show="currentRole=='admin'")
-							a(ng-href="/user/edit") 添加用户
-						li(ng-show="currentRole=='admin'")
-							a(ng-href="/tag/edit") 添加标签
-						li
-							a(ng-click="logout()") 退出
+					ul.nav.navbar-nav.navbar-right(ng-show="currentUser")
+						li 
+							a {{ currentUser }}您好！
+						li.dropdown
+							a.dropdown-toggle(data-toggle="dropdown", role="button") 个人设置
+							ul.dropdown-menu
+								li(ng-show="currentRole=='normal'")
+									a(ng-href="/user/edit/{{userId}}") 修改密码
+								li(ng-show="currentRole=='admin'")
+									a(ng-href="/user/edit") 添加用户
+								li(ng-show="currentRole=='admin'")
+									a(ng-href="/tag/edit") 添加标签
+								li
+									a(ng-click="logout()") 退出
 		block content
 		
 		hr

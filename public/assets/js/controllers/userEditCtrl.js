@@ -14,7 +14,7 @@ myApp.controller('userEditCtrl', [
 		'$route',
 		'$http',
 		'Session',
-		function($scope, $timeout, $route, Session){
+		function($scope, $timeout, $route, $http, Session){
 			$scope.username = '';
 			$scope.userRole = Session.userRole;
 			$scope.password = '';

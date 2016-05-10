@@ -45171,7 +45171,7 @@ myApp.controller('taskEditCtrl', [
 		'$location',
 		'Pattern',
 		function($scope, $timeout, $http, $route, $location, Pattern){
-			$scope.pattern = Pattern();
+			$scope.pattern = Pattern;
 			$scope.task = {};
 			$scope.tags = [];
 
@@ -45305,7 +45305,7 @@ myApp.controller('userEditCtrl', [
 		'$route',
 		'$http',
 		'Session',
-		function($scope, $timeout, $route, Session){
+		function($scope, $timeout, $route, $http, Session){
 			$scope.username = '';
 			$scope.userRole = Session.userRole;
 			$scope.password = '';

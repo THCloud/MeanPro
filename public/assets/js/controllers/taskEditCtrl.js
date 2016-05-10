@@ -16,7 +16,7 @@ myApp.controller('taskEditCtrl', [
 		'$location',
 		'Pattern',
 		function($scope, $timeout, $http, $route, $location, Pattern){
-			$scope.pattern = Pattern();
+			$scope.pattern = Pattern;
 			$scope.task = {};
 			$scope.tags = [];
 
